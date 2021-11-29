@@ -1,9 +1,10 @@
-import React from 'react';
+import React from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import HatImage from '../images/hat.png'
+import HelpModal from './HelpModal'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,6 +48,7 @@ function TopCard() {
                     Cowboy
                 </Typography>
             </div>
+            <HelpModal/>
             </Toolbar>
         </AppBar>
         </div>
