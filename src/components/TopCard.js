@@ -42,7 +42,7 @@ function TopCard() {
         <AppBar position="static" className={classes.appBar}>
             <Toolbar variant="dense" className={classes.toolBar}>
             <div className={classes.brand}>
-                <img alt="hat image" className={classes.logo} src={HatImage} />
+                <img alt="hat" className={classes.logo} src={HatImage} />
                 <Typography color="primary" variant="h4">
                     Cowboy
                 </Typography>
