@@ -1,24 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
+import PlayerCard from './components/PlayerCard';
+import TopCard from './components/TopCard';
+import {
+  createTheme,
+  ThemeProvider,
+} from '@material-ui/core/styles'
+import { GameContextProvider } from './context/GameContext';
+
+const mainTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#33eb91',
+    },
+    secondary: {
+      main: '#f73378',
+    },
+    // Background colors
+    info: {
+      main: '#121212',
+      light: '#191b21',
+      dark: '#191b21',
+    },
+  },
+})
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={mainTheme}>
+      <div className="App">
+        <GameContextProvider>
+          <TopCard/>
+          <PlayerCard/>
+        </GameContextProvider>
+      </div>
+    </ThemeProvider>
   );
 }
 
