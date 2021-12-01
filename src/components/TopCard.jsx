@@ -9,7 +9,7 @@ import HelpModal from './HelpModal';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    paddingBottom: theme.spacing(1.5),
+    paddingBottom: theme.spacing(1),
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
     paddingTop: theme.spacing(1),

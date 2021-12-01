@@ -1,7 +1,11 @@
 import './App.css';
 
 import React from 'react';
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import {
+  createTheme,
+  ThemeProvider,
+  makeStyles,
+} from '@material-ui/core/styles';
 import PlayerCard from './components/PlayerCard';
 import TopCard from './components/TopCard';
 import BotCard from './components/BotCard';
@@ -25,15 +29,23 @@ const mainTheme = createTheme({
   },
 });
 
+const useStyles = makeStyles(() => ({
+  container: {
+    alignItems: 'center',
+  },
+}));
+
 const App = function App() {
+  const classes = useStyles();
+
   return (
     <ThemeProvider theme={mainTheme}>
       <div className="App">
         <GameContextProvider>
           <TopCard />
-          <div className="container">
-            <PlayerCard />
+          <div className={classes.container}>
             <BotCard />
+            <PlayerCard />
           </div>
         </GameContextProvider>
       </div>
