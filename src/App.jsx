@@ -1,13 +1,11 @@
 import './App.css';
 
+import React from 'react';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import PlayerCard from './components/PlayerCard';
 import TopCard from './components/TopCard';
 import BotCard from './components/BotCard';
 
-import {
-  createTheme,
-  ThemeProvider,
-} from '@material-ui/core/styles'
 import { GameContextProvider } from './context/GameContext';
 
 const mainTheme = createTheme({
@@ -25,22 +23,22 @@ const mainTheme = createTheme({
       dark: '#191b21',
     },
   },
-})
+});
 
-function App() {
+const App = function App() {
   return (
     <ThemeProvider theme={mainTheme}>
       <div className="App">
         <GameContextProvider>
-          <TopCard/>
+          <TopCard />
           <div className="container">
-            <PlayerCard/>
-            <BotCard/>
+            <PlayerCard />
+            <BotCard />
           </div>
         </GameContextProvider>
       </div>
     </ThemeProvider>
   );
-}
+};
 
 export default App;
