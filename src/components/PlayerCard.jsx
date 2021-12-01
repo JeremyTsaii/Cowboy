@@ -5,19 +5,20 @@ import { GameContext } from '../context/GameContext';
 import StartButton from './StartButton';
 
 const PlayerCard = function PlayerCard() {
-  const gameStats = useContext(GameContext);
+  const gameContext = useContext(GameContext);
 
   return (
     <div>
       <StartButton />
       <Typography color="primary" variant="h4">
-        Lives: {gameStats.lives}
+        Player Lives: {gameContext.gameStats.playerLives}
       </Typography>
       <Typography color="primary" variant="h4">
-        Ammo: {gameStats.ammo}
+        Player Ammo: {gameContext.gameStats.playerAmmo}
       </Typography>
       <Typography color="primary" variant="h4">
-        Game Status: {gameStats.isPlaying ? 'Playing' : 'Not Started'}
+        Game Status:{' '}
+        {gameContext.gameStats.isPlaying ? 'Playing' : 'Not Started'}
       </Typography>
       <Webcam />
     </div>

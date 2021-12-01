@@ -4,15 +4,15 @@ import { GameContext } from '../context/GameContext';
 import robotIMG from '../images/robot.jpg';
 
 const BotCard = function BotCard() {
-  const gameStats = useContext(GameContext);
+  const gameContext = useContext(GameContext);
 
   return (
     <div>
       <Typography color="primary" variant="h4">
-        Lives: {gameStats.lives}
+        Bot Lives: {gameContext.gameStats.botLives}
       </Typography>
       <Typography color="primary" variant="h4">
-        Ammo: {gameStats.ammo}
+        Bot Ammo: {gameContext.gameStats.botAmmo}
       </Typography>
       <img alt="bot" className="bot" src={robotIMG} />
     </div>

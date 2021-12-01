@@ -2,8 +2,10 @@ import React, { createContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 export const GameContext = createContext({
-  ammo: 0,
-  lives: 0,
+  playerAmmo: 0,
+  playerLives: 3,
+  botAmmo: 0,
+  botLives: 3,
   isPlaying: false,
 });
 
@@ -11,8 +13,10 @@ export const GameContextProvider = function GameContextProvider({
   children,
 }) {
   const [gameStats, setGameStats] = useState({
-    ammo: 0,
-    lives: 0,
+    playerAmmo: 0,
+    playerLives: 3,
+    botAmmo: 0,
+    botLives: 3,
     isPlaying: false,
   });
 
