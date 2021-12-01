@@ -1,6 +1,9 @@
 import './App.css';
+
 import PlayerCard from './components/PlayerCard';
 import TopCard from './components/TopCard';
+import BotCard from './components/BotCard';
+
 import {
   createTheme,
   ThemeProvider,
@@ -30,7 +33,10 @@ function App() {
       <div className="App">
         <GameContextProvider>
           <TopCard/>
-          <PlayerCard/>
+          <div className="container">
+            <PlayerCard/>
+            <BotCard/>
+          </div>
         </GameContextProvider>
       </div>
     </ThemeProvider>
