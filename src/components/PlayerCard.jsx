@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import { GameContext } from '../context/GameContext';
 import StartButton from './StartButton';
+import PlayerCamera from './PlayerCamera';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +44,9 @@ const PlayerCard = function PlayerCard() {
               </Typography>
             </div>
           </Grid>
-          <Grid item xs={6} />
+          <Grid item xs={6}>
+            <PlayerCamera />
+          </Grid>
           <Grid item xs={3}>
             <StartButton />
           </Grid>
