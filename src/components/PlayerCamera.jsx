@@ -10,18 +10,19 @@ const PlayerCamera = function PlayerCamera() {
   const poseNet = useRef();
   const pose = useRef();
   const skeleton = useRef();
-
   const brain = useRef();
   const [poseLabel, setPoseLabel] = useState('N');
 
-  const classifyPose = (p5) => {
+  const classifyPose = () => {
     if (pose.current) {
       const gotResult = (error, results) => {
-        if (results[0].confidence > 0.75) {
-          setPoseLabel(results[0].label.toUpperCase());
-        }
-        // console.log(results[0].confidence);
-        classifyPose();
+        console.log(error);
+        console.log(results);
+        setPoseLabel('hi');
+        // if (results[0].confidence > 0.75) {
+        //   setPoseLabel(results[0].label.toUpperCase());
+        // }
+        // classifyPose();
       };
 
       const inputs = [];
@@ -31,10 +32,13 @@ const PlayerCamera = function PlayerCamera() {
         inputs.push(x);
         inputs.push(y);
       }
+      console.log(inputs);
+      console.log(brain.current);
       brain.current.classify(inputs, gotResult);
-    } else {
-      p5.setTimeout(classifyPose(), 100);
     }
+    // else {
+    //   setTimeout(classifyPose(), 100);
+    // }
   };
 
   function modelLoaded() {
@@ -67,7 +71,7 @@ const PlayerCamera = function PlayerCamera() {
     p5.createCanvas(640, 480).parent(canvasParentRef);
     video.current = p5.createCapture(p5.VIDEO);
     video.current.hide();
-    poseNet.current = ml5.poseNet(video, modelLoaded);
+    poseNet.current = ml5.poseNet(video.current, modelLoaded);
     poseNet.current.on('pose', gotPoses);
 
     const options = {
@@ -79,9 +83,12 @@ const PlayerCamera = function PlayerCamera() {
 
     brain.current = ml5.neuralNetwork(options);
     const modelInfo = {
-      model: './model/model.json',
-      metadata: './model/model_metadata.json',
-      weights: './model/model.weights.bin',
+      model:
+        'https://teachablemachine.withgoogle.com/models/5UuIp_h24/model.json',
+      metadata:
+        'https://teachablemachine.withgoogle.com/models/5UuIp_h24/metadata.json',
+      weights:
+        'https://teachablemachine.withgoogle.com/models/5UuIp_h24/model.weights.bin',
     };
     brain.current.load(modelInfo, brainLoaded);
   };

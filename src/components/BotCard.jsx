@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
 const BotCard = function BotCard() {
   const classes = useStyles();
   const gameContext = useContext(GameContext);
-  console.log(gameContext.gameStats.playerMove);
+
   return (
     <Grid container className={classes.container}>
       <Grid item xs={3}>
