@@ -1,8 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import ml5 from 'ml5';
 import Sketch from 'react-p5';
+import { GameContext } from '../context/GameContext';
 
 const PlayerCamera = function PlayerCamera() {
+  const gameContext = useContext(GameContext);
+
   const video = useRef();
   const poseNet = useRef();
   const pose = useRef();
@@ -47,6 +50,16 @@ const PlayerCamera = function PlayerCamera() {
     if (poses.length > 0) {
       pose.current = poses[0].pose;
       skeleton.current = poses[0].skeleton;
+
+      // TODO: Fix since this currently is never called since pose classification doesn't work...
+      if (gameContext.gameStats.capturePose) {
+        const newGameStats = { ...gameContext.gameStats };
+        newGameStats.capturePose = false;
+        newGameStats.playerMove = 'FILL ME IN';
+        newGameStats.botMove = 'RANDOM FILL ME IN';
+
+        gameContext.setGameStats(newGameStats);
+      }
     }
   }
 

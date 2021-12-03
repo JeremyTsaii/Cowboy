@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import { GameContext } from '../context/GameContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -12,12 +13,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HelpButton = function HelpButton() {
+const StartButton = function StartButton() {
   const gameContext = useContext(GameContext);
   const classes = useStyles();
   const [isPlaying, setIsPlaying] = useState(
     gameContext.gameStats.isPlaying,
   );
+  // After 3 second countdown, allow time for capturing the pose
+  const [isCapturing, setIsCapturing] = useState(false);
+
+  const [timeLeft, setTimeLeft] = useState(3);
+  // 3 second countdown
+  useEffect(() => {
+    if (isPlaying && !isCapturing) {
+      if (timeLeft > 0) {
+        setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      } else {
+        setIsCapturing(true);
+        const newGameStats = { ...gameContext.gameStats };
+        newGameStats.capturePose = true;
+        gameContext.setGameStats(newGameStats);
+        setTimeout(() => {
+          setTimeLeft(3);
+          setIsCapturing(false);
+        }, 2000);
+      }
+    }
+  });
 
   const handleStart = () => {
     const newGameStats = { ...gameContext.gameStats };
@@ -28,22 +50,32 @@ const HelpButton = function HelpButton() {
   };
 
   return (
-    <Button
-      variant="outlined"
-      color="primary"
-      className={classes.startButton}
-      startIcon={
-        isPlaying ? (
-          <PauseCircleOutlineIcon />
-        ) : (
-          <PlayCircleOutlineIcon />
-        )
-      }
-      onClick={handleStart}
-    >
-      {isPlaying ? 'Pause' : 'Start'}
-    </Button>
+    <div>
+      <Button
+        variant="outlined"
+        color="primary"
+        className={classes.startButton}
+        startIcon={
+          isPlaying ? (
+            <PauseCircleOutlineIcon />
+          ) : (
+            <PlayCircleOutlineIcon />
+          )
+        }
+        onClick={handleStart}
+      >
+        {isPlaying ? 'Pause' : 'Start'}
+      </Button>
+      <Typography color="primary" variant="subtitle1">
+        {`Time Left for Pose: ${timeLeft}`}
+      </Typography>
+      {isCapturing ? (
+        <Typography color="primary" variant="subtitle1">
+          Capturing pose...
+        </Typography>
+      ) : null}
+    </div>
   );
 };
 
-export default HelpButton;
+export default StartButton;

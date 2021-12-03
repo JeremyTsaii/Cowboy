@@ -142,8 +142,9 @@ const HelpModal = function HelpModal() {
             color="primary"
             className={classes.header}
           >
-            - When the timer goes off, pose for the move you want to
-            do (explained below).
+            - When the 3-second timer reaches 0, your pose will be
+            captured and matched to a move (potential poses/moves
+            explained below).
           </Typography>
           <Typography
             variant="subtitle2"
@@ -151,7 +152,7 @@ const HelpModal = function HelpModal() {
             className={classes.header}
           >
             - To start the game, press the Start button in the bottom
-            left corner.
+            right corner.
           </Typography>
           <Typography
             variant="h6"

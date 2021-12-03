@@ -1,24 +1,23 @@
 import React, { createContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
-export const GameContext = createContext({
+const DefaultContext = {
   playerAmmo: 0,
   playerLives: 3,
+  playerMove: null,
   botAmmo: 0,
   botLives: 3,
+  botMove: null,
   isPlaying: false,
-});
+  capturePose: false,
+};
+
+export const GameContext = createContext(DefaultContext);
 
 export const GameContextProvider = function GameContextProvider({
   children,
 }) {
-  const [gameStats, setGameStats] = useState({
-    playerAmmo: 0,
-    playerLives: 3,
-    botAmmo: 0,
-    botLives: 3,
-    isPlaying: false,
-  });
+  const [gameStats, setGameStats] = useState(DefaultContext);
 
   const value = useMemo(
     () => ({
