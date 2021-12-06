@@ -27,6 +27,9 @@ const mainTheme = createTheme({
       dark: '#191b21',
     },
   },
+  gameText: {
+    fontSize: '2vw',
+  },
 });
 
 const useStyles = makeStyles(() => ({

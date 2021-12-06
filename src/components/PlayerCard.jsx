@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     borderTopRightRadius: theme.spacing(1),
     borderBottomRightRadius: theme.spacing(1),
   },
+  statText: {
+    fontSize: theme.gameText.fontSize,
+  },
 }));
 
 const PlayerCard = function PlayerCard() {
@@ -36,14 +39,26 @@ const PlayerCard = function PlayerCard() {
         <Grid container className={classes.container}>
           <Grid item xs={3}>
             <div>
-              <Typography color="primary" variant="subtitle1">
+              <Typography
+                color="primary"
+                variant="h3"
+                className={classes.statText}
+              >
                 Player Lives: {gameStats.playerLives}
               </Typography>
-              <Typography color="primary" variant="subtitle1">
+              <Typography
+                color="primary"
+                variant="h3"
+                className={classes.statText}
+              >
                 Player Ammo: {gameStats.playerAmmo}
               </Typography>
               {gameStats.botMove ? (
-                <Typography color="primary" variant="subtitle1">
+                <Typography
+                  color="primary"
+                  variant="h3"
+                  className={classes.statText}
+                >
                   Player Last Move: {gameStats.playerMove}
                 </Typography>
               ) : null}

@@ -5,9 +5,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import { GameContext } from '../context/GameContext';
 import robotIMG from '../images/robot.jpg';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     alignItems: 'center',
+  },
+  botPic: {
+    width: '15vw',
+  },
+  statText: {
+    fontSize: theme.gameText.fontSize,
   },
 }));
 
@@ -18,21 +24,34 @@ const BotCard = function BotCard() {
   return (
     <Grid container className={classes.container}>
       <Grid item xs={3}>
-        <Typography color="primary" variant="subtitle1">
+        <Typography
+          color="primary"
+          variant="h3"
+          className={classes.statText}
+        >
           Bot Lives: {gameStats.botLives}
         </Typography>
-        <Typography color="primary" variant="subtitle1">
+        <Typography
+          color="primary"
+          variant="h3"
+          className={classes.statText}
+        >
           Bot Ammo: {gameStats.botAmmo}
         </Typography>
         {gameStats.botMove ? (
-          <Typography color="primary" variant="subtitle1">
+          <Typography
+            color="primary"
+            variant="h3"
+            className={classes.statText}
+          >
             Bot Last Move: {gameStats.botMove}
           </Typography>
         ) : null}
       </Grid>
-      <Grid item xs={9}>
-        <img alt="bot" className="bot" src={robotIMG} />
+      <Grid item xs={6}>
+        <img alt="bot" className={classes.botPic} src={robotIMG} />
       </Grid>
+      <Grid item xs={3} />
     </Grid>
   );
 };
