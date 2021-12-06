@@ -1,15 +1,15 @@
 import React, { createContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
-const DefaultContext = {
-  playerAmmo: 0,
+export const DefaultContext = {
+  playerAmmo: 3,
   playerLives: 3,
-  playerMove: null,
-  botAmmo: 0,
+  botAmmo: 3,
   botLives: 3,
   botMove: null,
   isPlaying: false,
   capturePose: false,
+  isGameOver: false,
 };
 
 export const GameContext = createContext(DefaultContext);

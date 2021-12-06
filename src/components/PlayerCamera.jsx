@@ -1,28 +1,32 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useContext } from 'react';
 import ml5 from 'ml5';
 import Sketch from 'react-p5';
 import { GameContext } from '../context/GameContext';
 
-const PlayerCamera = function PlayerCamera() {
-  const gameContext = useContext(GameContext);
+const PoseDic = {
+  a: 'Reload',
+  b: 'Shield',
+  c: 'Shoot',
+};
 
+const PlayerCamera = function PlayerCamera() {
+  const { gameStats, setGameStats } = useContext(GameContext);
+  const game = useRef();
+  game.current = gameStats;
   const video = useRef();
   const poseNet = useRef();
   const pose = useRef();
   const skeleton = useRef();
   const brain = useRef();
-  const [poseLabel, setPoseLabel] = useState('N');
+  const poseLabel = useRef();
 
   const classifyPose = () => {
     if (pose.current) {
       const gotResult = (error, results) => {
-        console.log(error);
-        console.log(results);
-        setPoseLabel('hi');
-        // if (results[0].confidence > 0.75) {
-        //   setPoseLabel(results[0].label.toUpperCase());
-        // }
-        // classifyPose();
+        if (results[0].confidence > 0.75) {
+          poseLabel.current = PoseDic[results[0].label];
+        }
+        setTimeout(classifyPose, 500);
       };
 
       const inputs = [];
@@ -32,40 +36,75 @@ const PlayerCamera = function PlayerCamera() {
         inputs.push(x);
         inputs.push(y);
       }
-      console.log(inputs);
-      console.log(brain.current);
       brain.current.classify(inputs, gotResult);
     }
-    // else {
-    //   setTimeout(classifyPose(), 100);
-    // }
   };
 
-  function modelLoaded() {
-    console.log('poseNet ready');
-  }
+  const modelLoaded = () => {
+    console.log('poseNet ready!');
+  };
 
-  const brainLoaded = (p5) => {
+  const brainLoaded = () => {
     console.log('pose classification ready!');
-    classifyPose(p5);
   };
 
-  function gotPoses(poses) {
+  const gotPoses = (poses) => {
     if (poses.length > 0) {
       pose.current = poses[0].pose;
       skeleton.current = poses[0].skeleton;
 
-      // TODO: Fix since this currently is never called since pose classification doesn't work...
-      if (gameContext.gameStats.capturePose) {
-        const newGameStats = { ...gameContext.gameStats };
-        newGameStats.capturePose = false;
-        newGameStats.playerMove = 'FILL ME IN';
-        newGameStats.botMove = 'RANDOM FILL ME IN';
+      if (game.current.capturePose) {
+        console.log('capturing pose');
 
-        gameContext.setGameStats(newGameStats);
+        // Get player move
+        const newGameStats = { ...game.current };
+        newGameStats.capturePose = false;
+        newGameStats.playerMove = poseLabel.current;
+
+        // Get bot move
+        const moves = Object.values(PoseDic);
+        const random = Math.floor(Math.random() * moves.length);
+        newGameStats.botMove = moves[random];
+
+        // Update state according to game rules
+        if (newGameStats.playerMove === 'Reload') {
+          newGameStats.playerAmmo += 1;
+        }
+        if (newGameStats.botMove === 'Reload') {
+          newGameStats.botAmmo += 1;
+        }
+        if (
+          newGameStats.playerMove === 'Shoot' &&
+          newGameStats.playerAmmo > 0
+        ) {
+          newGameStats.playerAmmo -= 1;
+          if (newGameStats.botMove === 'Reload') {
+            newGameStats.botLives -= 1;
+          }
+        } else if (
+          newGameStats.botMove === 'Shoot' &&
+          newGameStats.botAmmo > 0
+        ) {
+          newGameStats.botAmmo -= 1;
+          if (newGameStats.playerMove === 'Reload') {
+            newGameStats.playerLives -= 1;
+          }
+        }
+        if (
+          newGameStats.playerLives === 0 ||
+          newGameStats.botLives === 0
+        ) {
+          console.log('game is over');
+          newGameStats.isGameOver = true;
+        }
+
+        setGameStats(newGameStats);
+        game.current = newGameStats;
       }
+
+      classifyPose();
     }
-  }
+  };
 
   const setup = (p5, canvasParentRef) => {
     p5.createCanvas(640, 480).parent(canvasParentRef);
@@ -76,19 +115,16 @@ const PlayerCamera = function PlayerCamera() {
 
     const options = {
       inputs: 34,
-      outputs: 4,
+      outputs: 3,
       task: 'classification',
       debug: true,
     };
 
     brain.current = ml5.neuralNetwork(options);
     const modelInfo = {
-      model:
-        'https://teachablemachine.withgoogle.com/models/5UuIp_h24/model.json',
-      metadata:
-        'https://teachablemachine.withgoogle.com/models/5UuIp_h24/metadata.json',
-      weights:
-        'https://teachablemachine.withgoogle.com/models/5UuIp_h24/model.weights.bin',
+      model: '/model/model.json',
+      metadata: '/model/model_meta.json',
+      weights: '/model/model.weights.bin',
     };
     brain.current.load(modelInfo, brainLoaded);
   };
@@ -129,11 +165,10 @@ const PlayerCamera = function PlayerCamera() {
     }
     p5.pop();
 
-    p5.fill(255, 0, 255);
+    p5.fill(0, 230, 118);
     p5.noStroke();
-    p5.textSize(512);
-    p5.textAlign(p5.CENTER, p5.CENTER);
-    p5.text(poseLabel, p5.width / 2, p5.height / 2);
+    p5.textSize(70);
+    p5.text(poseLabel.current, p5.width / 12, p5.height / 6);
   };
 
   return <Sketch setup={setup} draw={draw} />;

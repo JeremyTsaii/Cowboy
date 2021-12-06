@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 const PlayerCard = function PlayerCard() {
   const classes = useStyles();
-  const gameContext = useContext(GameContext);
+  const { gameStats } = useContext(GameContext);
 
   return (
     <div className={classes.root}>
@@ -37,11 +37,16 @@ const PlayerCard = function PlayerCard() {
           <Grid item xs={3}>
             <div>
               <Typography color="primary" variant="subtitle1">
-                Player Lives: {gameContext.gameStats.playerLives}
+                Player Lives: {gameStats.playerLives}
               </Typography>
               <Typography color="primary" variant="subtitle1">
-                Player Ammo: {gameContext.gameStats.playerAmmo}
+                Player Ammo: {gameStats.playerAmmo}
               </Typography>
+              {gameStats.botMove ? (
+                <Typography color="primary" variant="subtitle1">
+                  Player Last Move: {gameStats.playerMove}
+                </Typography>
+              ) : null}
             </div>
           </Grid>
           <Grid item xs={6}>

@@ -14,11 +14,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const StartButton = function StartButton() {
-  const gameContext = useContext(GameContext);
+  const { gameStats, setGameStats } = useContext(GameContext);
   const classes = useStyles();
-  const [isPlaying, setIsPlaying] = useState(
-    gameContext.gameStats.isPlaying,
-  );
+  const [isPlaying, setIsPlaying] = useState(gameStats.isPlaying);
   // After 3 second countdown, allow time for capturing the pose
   const [isCapturing, setIsCapturing] = useState(false);
 
@@ -30,9 +28,9 @@ const StartButton = function StartButton() {
         setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       } else {
         setIsCapturing(true);
-        const newGameStats = { ...gameContext.gameStats };
+        const newGameStats = { ...gameStats };
         newGameStats.capturePose = true;
-        gameContext.setGameStats(newGameStats);
+        setGameStats(newGameStats);
         setTimeout(() => {
           setTimeLeft(3);
           setIsCapturing(false);
@@ -42,10 +40,9 @@ const StartButton = function StartButton() {
   });
 
   const handleStart = () => {
-    const newGameStats = { ...gameContext.gameStats };
+    const newGameStats = { ...gameStats };
     newGameStats.isPlaying = !newGameStats.isPlaying;
-
-    gameContext.setGameStats(newGameStats);
+    setGameStats(newGameStats);
     setIsPlaying(newGameStats.isPlaying);
   };
 

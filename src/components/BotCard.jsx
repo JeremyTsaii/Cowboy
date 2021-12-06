@@ -13,17 +13,22 @@ const useStyles = makeStyles(() => ({
 
 const BotCard = function BotCard() {
   const classes = useStyles();
-  const gameContext = useContext(GameContext);
+  const { gameStats } = useContext(GameContext);
 
   return (
     <Grid container className={classes.container}>
       <Grid item xs={3}>
         <Typography color="primary" variant="subtitle1">
-          Bot Lives: {gameContext.gameStats.botLives}
+          Bot Lives: {gameStats.botLives}
         </Typography>
         <Typography color="primary" variant="subtitle1">
-          Bot Ammo: {gameContext.gameStats.botAmmo}
+          Bot Ammo: {gameStats.botAmmo}
         </Typography>
+        {gameStats.botMove ? (
+          <Typography color="primary" variant="subtitle1">
+            Bot Last Move: {gameStats.botMove}
+          </Typography>
+        ) : null}
       </Grid>
       <Grid item xs={9}>
         <img alt="bot" className="bot" src={robotIMG} />

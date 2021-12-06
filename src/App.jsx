@@ -9,7 +9,7 @@ import {
 import PlayerCard from './components/PlayerCard';
 import TopCard from './components/TopCard';
 import BotCard from './components/BotCard';
-
+import GameOverModal from './components/GameOverModal';
 import { GameContextProvider } from './context/GameContext';
 
 const mainTheme = createTheme({
@@ -46,6 +46,7 @@ const App = function App() {
           <div className={classes.container}>
             <BotCard />
             <PlayerCard />
+            <GameOverModal />
           </div>
         </GameContextProvider>
       </div>
