@@ -4,18 +4,49 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { GameContext } from '../context/GameContext';
 import robotIMG from '../images/robot.jpg';
+import reloadIMG from '../images/bullet.png';
+import shieldIMG from '../images/Green_Shield.png';
+import shootIMG from '../images/green_gun.png';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     alignItems: 'center',
   },
   botPic: {
-    width: '15vw',
+    height: '39vh',
   },
   statText: {
     fontSize: theme.gameText.fontSize,
   },
 }));
+
+const getBotImage = function getBotImage() {
+  const classes = useStyles();
+  const { gameStats } = useContext(GameContext);
+  if (!gameStats.botMove)
+    return (
+      <img alt="bot" className={classes.botPic} src={robotIMG} />
+    );
+
+  switch (gameStats.botMove) {
+    case 'Reload':
+      return (
+        <img alt="bot" className={classes.botPic} src={reloadIMG} />
+      );
+    case 'Shield':
+      return (
+        <img alt="bot" className={classes.botPic} src={shieldIMG} />
+      );
+    case 'Shoot':
+      return (
+        <img alt="bot" className={classes.botPic} src={shootIMG} />
+      );
+    default:
+      return (
+        <img alt="bot" className={classes.botPic} src={robotIMG} />
+      );
+  }
+};
 
 const BotCard = function BotCard() {
   const classes = useStyles();
@@ -49,7 +80,7 @@ const BotCard = function BotCard() {
         ) : null}
       </Grid>
       <Grid item xs={6}>
-        <img alt="bot" className={classes.botPic} src={robotIMG} />
+        {getBotImage()}
       </Grid>
       <Grid item xs={3} />
     </Grid>
