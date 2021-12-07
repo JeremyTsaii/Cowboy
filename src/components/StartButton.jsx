@@ -16,14 +16,14 @@ const useStyles = makeStyles((theme) => ({
 const StartButton = function StartButton() {
   const { gameStats, setGameStats } = useContext(GameContext);
   const classes = useStyles();
-  const [isPlaying, setIsPlaying] = useState(gameStats.isPlaying);
+
   // After 3 second countdown, allow time for capturing the pose
   const [isCapturing, setIsCapturing] = useState(false);
 
   const [timeLeft, setTimeLeft] = useState(3);
   // 3 second countdown
   useEffect(() => {
-    if (isPlaying && !isCapturing) {
+    if (gameStats.isPlaying && !isCapturing) {
       if (timeLeft > 0) {
         setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       } else {
@@ -43,7 +43,6 @@ const StartButton = function StartButton() {
     const newGameStats = { ...gameStats };
     newGameStats.isPlaying = !newGameStats.isPlaying;
     setGameStats(newGameStats);
-    setIsPlaying(newGameStats.isPlaying);
   };
 
   return (
@@ -53,7 +52,7 @@ const StartButton = function StartButton() {
         color="primary"
         className={classes.startButton}
         startIcon={
-          isPlaying ? (
+          gameStats.isPlaying ? (
             <PauseCircleOutlineIcon />
           ) : (
             <PlayCircleOutlineIcon />
@@ -61,7 +60,7 @@ const StartButton = function StartButton() {
         }
         onClick={handleStart}
       >
-        {isPlaying ? 'Pause' : 'Start'}
+        {gameStats.isPlaying ? 'Pause' : 'Start'}
       </Button>
       <Typography color="primary" variant="subtitle1">
         {`Time Left for Pose: ${timeLeft}`}

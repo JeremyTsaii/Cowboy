@@ -40,22 +40,12 @@ const PlayerCamera = function PlayerCamera() {
     }
   };
 
-  const modelLoaded = () => {
-    console.log('poseNet ready!');
-  };
-
-  const brainLoaded = () => {
-    console.log('pose classification ready!');
-  };
-
   const gotPoses = (poses) => {
     if (poses.length > 0) {
       pose.current = poses[0].pose;
       skeleton.current = poses[0].skeleton;
 
       if (game.current.capturePose) {
-        console.log('capturing pose');
-
         // Get player move
         const newGameStats = { ...game.current };
         newGameStats.capturePose = false;
@@ -94,8 +84,8 @@ const PlayerCamera = function PlayerCamera() {
           newGameStats.playerLives === 0 ||
           newGameStats.botLives === 0
         ) {
-          console.log('game is over');
           newGameStats.isGameOver = true;
+          newGameStats.isPlaying = false;
         }
 
         setGameStats(newGameStats);
@@ -110,7 +100,7 @@ const PlayerCamera = function PlayerCamera() {
     p5.createCanvas(640, 480).parent(canvasParentRef);
     video.current = p5.createCapture(p5.VIDEO);
     video.current.hide();
-    poseNet.current = ml5.poseNet(video.current, modelLoaded);
+    poseNet.current = ml5.poseNet(video.current);
     poseNet.current.on('pose', gotPoses);
 
     const options = {
@@ -126,7 +116,7 @@ const PlayerCamera = function PlayerCamera() {
       metadata: '/model/model_meta.json',
       weights: '/model/model.weights.bin',
     };
-    brain.current.load(modelInfo, brainLoaded);
+    brain.current.load(modelInfo);
   };
 
   const draw = (p5) => {
