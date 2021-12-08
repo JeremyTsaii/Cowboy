@@ -3,10 +3,10 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { GameContext } from '../context/GameContext';
-import robotIMG from '../images/robot.jpg';
-import reloadIMG from '../images/bullet.png';
+import hatIMG from '../images/hat.png';
+import reloadIMG from '../images/reload.png';
 import shieldIMG from '../images/Green_Shield.png';
-import shootIMG from '../images/green_gun.png';
+import shootIMG from '../images/gun.png';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,9 +24,7 @@ const getBotImage = function getBotImage() {
   const classes = useStyles();
   const { gameStats } = useContext(GameContext);
   if (!gameStats.botMove)
-    return (
-      <img alt="bot" className={classes.botPic} src={robotIMG} />
-    );
+    return <img alt="bot" className={classes.botPic} src={hatIMG} />;
 
   switch (gameStats.botMove) {
     case 'Reload':
@@ -43,7 +41,7 @@ const getBotImage = function getBotImage() {
       );
     default:
       return (
-        <img alt="bot" className={classes.botPic} src={robotIMG} />
+        <img alt="bot" className={classes.botPic} src={hatIMG} />
       );
   }
 };
