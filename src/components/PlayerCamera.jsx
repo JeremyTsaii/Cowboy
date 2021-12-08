@@ -68,15 +68,16 @@ const PlayerCamera = function PlayerCamera() {
           newGameStats.playerAmmo > 0
         ) {
           newGameStats.playerAmmo -= 1;
-          if (newGameStats.botMove === 'Reload') {
+          if (newGameStats.botMove !== 'Shield') {
             newGameStats.botLives -= 1;
           }
-        } else if (
+        }
+        if (
           newGameStats.botMove === 'Shoot' &&
           newGameStats.botAmmo > 0
         ) {
           newGameStats.botAmmo -= 1;
-          if (newGameStats.playerMove === 'Reload') {
+          if (newGameStats.playerMove !== 'Shield') {
             newGameStats.playerLives -= 1;
           }
         }
